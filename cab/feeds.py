@@ -22,13 +22,13 @@ class LatestSnippetsFeed(Feed):
     author = "Snippets submitters"
     
     def item_author_name(self, item):
-        return item.author.username
+        return item.author.get_profile().nickname
     
     def items(self):
         return Snippet.objects.all()[:15]
     
     def item_author_name(self, item):
-        return item.author.username
+        return item.author.get_profile().nickname
     
     def item_link(self, item):
         return item.get_absolute_url()
@@ -58,13 +58,13 @@ class SnippetsByAuthorFeed(Feed):
         return Snippet.objects.filter(author=obj)[:15]
     
     def link(self, obj):
-        return "/users/%s/" % obj.username
+        return "/snippets/users/%s/" % obj.username
 
     def title(self, obj):
-        return "djangosnippets.org: Latest snippets posted by %s" % (obj.username)
+        return "Panl.com: Latest snippets posted by %s" % (obj.username)
     
     def item_author_name(self, item):
-        return item.author.username
+        return item.author.get_profile().nickname
     
     def item_link(self, item):
         return item.get_absolute_url()
@@ -97,7 +97,7 @@ class SnippetsByLanguageFeed(Feed):
         return "djangosnippets.org: Latest snippets written in %s" % (obj.name)
     
     def item_author_name(self, item):
-        return item.author.username
+        return item.author.get_profile().nickname
     
     def item_link(self, item):
         return item.get_absolute_url()
@@ -131,7 +131,7 @@ class SnippetsByTagFeed(Feed):
         return "djangosnippets.org: Latest snippets tagged with '%s'" % (obj.name)
     
     def item_author_name(self, item):
-        return item.author.username
+        return item.author.get_profile().nickname
     
     def item_link(self, item):
         return item.get_absolute_url()

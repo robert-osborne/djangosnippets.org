@@ -28,7 +28,7 @@ class SnippetIndex(SearchIndex):
         )
 
     def prepare_author(self, obj):
-        return obj.author.username
+        return obj.author.get_profile().nickname
 
     def prepare_language(self, obj):
         return obj.language.name

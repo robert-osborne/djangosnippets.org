@@ -1,11 +1,11 @@
 {% extends "base_user.html" %}
 {% load cache core_tags %}
 
-{% block feeds %}<link rel="alternate" href="/feeds/author/{{ author.username }}/" type="application/atom+xml" title="Feed of snippets by {{ author.username }}" />{% endblock %}
+{% block feeds %}<link rel="alternate" href="/feeds/author/{{ author.username }}/" type="application/atom+xml" title="Feed of snippets by {{ author.get_profile.nickname }}" />{% endblock %}
 
-{% block title %}Snippets by {{ author.username }}{% if months %}, last {{ months }} months{% endif %}{% endblock %}
+{% block title %}Snippets by {{ author.get_profile.nickname }}{% if months %}, last {{ months }} months{% endif %}{% endblock %}
 
-{% block content_header %}Snippets by {{ author.username }}{% if months %}, last {{ months }} months{% endif %}{% endblock %}
+{% block content_header %}Snippets by {{ author.get_profile.nickname }}{% if months %}, last {{ months }} months{% endif %}{% endblock %}
 
 
 {% block content %}
@@ -19,7 +19,7 @@
     <ul class="snippet_list">
     {% for snippet in object_list %}
       <li>
-        <a href="{{ snippet.get_absolute_url }}">{{ snippet.title }}</a> by <a href="/users/{{ snippet.author.username }}/">{{ snippet.author.username }}</a>
+        <a href="{{ snippet.get_absolute_url }}">{{ snippet.title }}</a> by <a href="/snippets/users/{{ snippet.author.username }}/">{{ snippet.author.get_profile.nickname }}</a>
         <p class="details">{{ snippet.pub_date|timesince }} ago, <span class="rating-{% if snippet.rating_score >= 0 %}positive{% else %}negative{% endif %}">{% if snippet.rating_score >= 0 %}+{% endif %}{{ snippet.rating_score }}</span></p>
       </li>
     {% endfor %}
@@ -39,15 +39,15 @@
 {% endblock %}
 
 {% block sidebar %}
-  {% cache 600 author_detail_sidebar author.username %}
-  <p>{% ifequal request.user author %}You've{% else %}{{ author.username }} has{% endifequal %} posted {{ author.snippet_set.count }} snippet{{ author.snippet_set.count|pluralize }}.</p>
+  {% cache 600 author_detail_sidebar author.get_profile.nickname %}
+  <p>{% ifequal request.user author %}You've{% else %}{{ author.get_profile.nickname }} has{% endifequal %} posted {{ author.snippet_set.count }} snippet{{ author.snippet_set.count|pluralize }}.</p>
 
-  <p><a rel="alternate" href="/feeds/author/{{ author.username }}/" type="application/atom+xml"><img src="http://djangosnippets.org/media/img/feed-icon-10x10.png" alt="" /> Feed of snippets by {{ author.username }}</a></p>
+  <p><a rel="alternate" href="/feeds/author/{{ author.username }}/" type="application/atom+xml"><img src="http://djangosnippets.org/media/img/feed-icon-10x10.png" alt="" /> Feed of snippets by {{ author.get_profile.nickname }}</a></p>
 
   <p>The users who've submitted the most snippets are:</p>
   <ol>
   {% for author in "cab.snippet"|call_manager:"top_authors"|slice:":5" %}
-    <li><a href="/users/{{ author.username }}/">{{ author.username }}</a></li>
+    <li><a href="/snippets/users/{{ author.username }}/">{{ author.get_profile.nickname }}</a></li>
   {% endfor %}
   </ol>
   {% endcache %}

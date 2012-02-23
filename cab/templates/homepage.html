@@ -11,21 +11,21 @@
   <h3>Latest snippets posted:</h3>
   <ul>
   {% for snippet in "cab.snippet"|latest:5 %}
-    <li><a href="{{ snippet.get_absolute_url }}">{{ snippet.title }}</a> (<a href="{{ snippet.language.get_absolute_url }}">{{ snippet.language.name }}</a>) by <a href="/users/{{ snippet.author.username }}/">{{ snippet.author.username }}</a> {{ snippet.pub_date|timesince }} ago</li>
+    <li><a href="{{ snippet.get_absolute_url }}">{{ snippet.title }}</a> (<a href="{{ snippet.language.get_absolute_url }}">{{ snippet.language.name }}</a>) by <a href="/snippets/users/{{ snippet.author.username }}/">{{ snippet.author.get_profile.nickname }}</a> {{ snippet.pub_date|timesince }} ago</li>
   {% endfor %}
   </ul>
 
   <h3>Top-rated snippets:</h3>
   <ol>
   {% for snippet in "cab.snippet"|call_manager:"top_rated"|slice:":5" %}
-    <li><a href="{{ snippet.get_absolute_url }}">{{ snippet.title }}</a> (<a href="{{ snippet.language.get_absolute_url }}">{{ snippet.language.name }}</a>) by <a href="/users/{{ snippet.author.username }}/">{{ snippet.author.username }}</a></li>
+    <li><a href="{{ snippet.get_absolute_url }}">{{ snippet.title }}</a> (<a href="{{ snippet.language.get_absolute_url }}">{{ snippet.language.name }}</a>) by <a href="/snippets/users/{{ snippet.author.username }}/">{{ snippet.author.get_profile.nickname }}</a></li>
   {% endfor %}
   </ol>
 
   <h3>Top users:</h3>
   <ol>
   {% for author in "cab.snippet"|call_manager:"top_authors"|slice:":5" %}
-    <li><a href="/users/{{ author.username }}/">{{ author.username }}</a></li>
+    <li><a href="/snippets/users/{{ author.username }}/">{{ author.get_profile.nickname }}</a></li>
   {% endfor %}
   </ol>
   {% endcache %}
