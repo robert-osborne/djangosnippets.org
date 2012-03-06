@@ -60,12 +60,7 @@ class SnippetManager(models.Manager):
         return self.filter(tags__in=[tag])
 
 DJANGO_VERSIONS = (
-    (1.3, '1.3'),
     (1.2, '1.2'),
-    (1.1, '1.1'),
-    (1, '1.0'),
-    (.96, '.96'),
-    (.95, 'Pre .96'),
     (0, 'Not specified'),
 )
 
