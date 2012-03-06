@@ -41,7 +41,7 @@ class Language(models.Model):
 
 class SnippetManager(models.Manager):
     def top_authors(self):
-        return User.objects.exclude(profile__isnull=True).annotate(score=Count('snippet')).order_by('-score', 'username')
+        return User.objects.filter(snippet__isnull=False).annotate(score=Count('snippet')).order_by('-score', 'username')
     
     def top_tags(self):
         return self.model.tags.most_common().order_by('-num_times', 'name')
